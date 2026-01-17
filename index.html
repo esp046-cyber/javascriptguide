@@ -1,0 +1,2939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript 2026 Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 1%;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 20px 1%;
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 0.75rem;
+            opacity: 0.95;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #6c757d;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content {
+            padding: 1%;
+            height: calc(100vh - 180px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 12px;
+            margin: 8px 1%;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+
+        .step:active {
+            transform: scale(0.98);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .step-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .step-content {
+            font-size: 0.75rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        code {
+            background: #2d3748;
+            color: #68d391;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 8px 1%;
+            font-size: 0.7rem;
+            line-height: 1.6;
+            white-space: pre;
+            word-wrap: normal;
+        }
+        
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        .skill-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            margin: 8px 1%;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .skill-level {
+            font-size: 0.65rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .skill-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .skill-desc {
+            font-size: 0.7rem;
+            line-height: 1.4;
+            opacity: 0.95;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 8px 1%;
+            border-radius: 6px;
+            font-size: 0.7rem;
+        }
+
+        .tip-icon {
+            font-weight: bold;
+            color: #ff9800;
+            margin-right: 6px;
+        }
+
+        .category {
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #667eea;
+            margin: 15px 1% 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .search-box {
+            width: calc(100% - 2%);
+            margin: 1%;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
+
+        .example-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196f3;
+            padding: 10px;
+            margin: 8px 1%;
+            border-radius: 6px;
+            font-size: 0.7rem;
+        }
+
+        /* Playground Styles */
+        .playground-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            gap: 8px;
+        }
+
+        .editor-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 1%;
+            background: #2d3748;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .editor-title {
+            color: #e2e8f0;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .editor-btn {
+            padding: 4px 12px;
+            font-size: 0.65rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .run-btn {
+            background: #48bb78;
+            color: white;
+        }
+
+        .run-btn:active {
+            transform: scale(0.95);
+            background: #38a169;
+        }
+
+        .clear-btn {
+            background: #f56565;
+            color: white;
+        }
+
+        .clear-btn:active {
+            transform: scale(0.95);
+            background: #e53e3e;
+        }
+
+        .reset-btn {
+            background: #4299e1;
+            color: white;
+        }
+
+        .reset-btn:active {
+            transform: scale(0.95);
+            background: #3182ce;
+        }
+
+        .code-editor {
+            flex: 1;
+            width: 100%;
+            padding: 12px;
+            background: #2d3748;
+            color: #e2e8f0;
+            border: none;
+            border-radius: 0 0 8px 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+            min-height: 150px;
+        }
+
+        .output-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .output-header {
+            padding: 8px 1%;
+            background: #1a202c;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .output-title {
+            color: #e2e8f0;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .output-display {
+            flex: 1;
+            padding: 12px;
+            background: #1a202c;
+            color: #68d391;
+            border-radius: 0 0 8px 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            line-height: 1.6;
+            overflow-y: auto;
+            min-height: 100px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .output-line {
+            margin: 4px 0;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .output-error {
+            color: #fc8181;
+        }
+
+        .output-log {
+            color: #68d391;
+        }
+
+        .output-info {
+            color: #63b3ed;
+        }
+
+        .snippet-library {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px;
+            margin: 8px 1% 12px;
+        }
+
+        .snippet-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .snippet-card:active {
+            transform: scale(0.95);
+        }
+
+        .snippet-name {
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .snippet-desc {
+            font-size: 0.6rem;
+            opacity: 0.9;
+        }
+
+        .playground-tips {
+            background: #fef5e7;
+            border-left: 4px solid #f39c12;
+            padding: 10px;
+            margin: 8px 1%;
+            border-radius: 6px;
+            font-size: 0.7rem;
+        }
+
+        /* Project Styles */
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 12px 1%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+        }
+
+        .project-card:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .project-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+
+        .project-info {
+            flex: 1;
+        }
+
+        .project-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .project-difficulty {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .difficulty-beginner {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .difficulty-intermediate {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .difficulty-advanced {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .project-desc {
+            font-size: 0.7rem;
+            color: #666;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 10px 0;
+        }
+
+        .tech-badge {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+
+        .project-features {
+            margin: 10px 0;
+        }
+
+        .project-features ul {
+            margin: 6px 0 0 20px;
+            padding: 0;
+        }
+
+        .project-features li {
+            font-size: 0.65rem;
+            color: #555;
+            margin: 4px 0;
+        }
+
+        .project-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        .project-btn:active {
+            transform: scale(0.95);
+        }
+
+        .project-expanded {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .project-expanded.visible {
+            display: block;
+        }
+
+        .code-section-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #667eea;
+            margin: 12px 0 6px;
+        }
+
+        .project-demo {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .demo-btn {
+            flex: 1;
+            padding: 8px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .demo-output {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 10px;
+            min-height: 100px;
+            font-size: 0.7rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 6px;
+            margin: 10px 1%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .filter-btn {
+            padding: 6px 12px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Cheat Sheet Styles */
+        .cheat-section {
+            margin: 15px 1%;
+        }
+
+        .cheat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 12px;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cheat-icon {
+            font-size: 1rem;
+        }
+
+        .cheat-content {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            padding: 12px;
+        }
+
+        .cheat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 8px;
+            margin: 6px 0;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+        }
+
+        .cheat-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #333;
+            flex: 1;
+        }
+
+        .cheat-code {
+            background: #2d3748;
+            color: #68d391;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-family: 'Courier New', monospace;
+            margin-left: 8px;
+            white-space: nowrap;
+        }
+
+        .cheat-desc {
+            font-size: 0.65rem;
+            color: #666;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        .cheat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px;
+            margin: 8px 0;
+        }
+
+        .cheat-card {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+            text-align: center;
+        }
+
+        .cheat-card-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .cheat-card-code {
+            background: #2d3748;
+            color: #68d391;
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+
+        .quick-ref {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 10px 1%;
+            border-radius: 6px;
+            font-size: 0.7rem;
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            padding: 15px 1%;
+        }
+
+        .quiz-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .quiz-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .quiz-subtitle {
+            font-size: 0.7rem;
+            opacity: 0.9;
+        }
+
+        .quiz-level-selector {
+            display: flex;
+            gap: 8px;
+            margin: 15px 1%;
+            overflow-x: auto;
+        }
+
+        .level-btn {
+            flex: 1;
+            padding: 10px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .level-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .level-btn:active {
+            transform: scale(0.95);
+        }
+
+        .quiz-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 1%;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .question-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 1%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 700;
+        }
+
+        .question-difficulty {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 700;
+        }
+
+        .diff-easy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .diff-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .diff-hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .question-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #333;
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+
+        .question-code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        .options-container {
+            margin: 15px 0;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.75rem;
+        }
+
+        .option:active {
+            transform: scale(0.98);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #e7f3ff;
+        }
+
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .option.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .option-label {
+            font-weight: 700;
+            color: #667eea;
+            margin-right: 8px;
+        }
+
+        .explanation {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            display: none;
+        }
+
+        .explanation.visible {
+            display: block;
+        }
+
+        .explanation-title {
+            font-weight: 700;
+            color: #856404;
+            margin-bottom: 6px;
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .quiz-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quiz-btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-check {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-next {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-restart {
+            background: #6c757d;
+            color: white;
+        }
+
+        .results-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 1%;
+            text-align: center;
+        }
+
+        .results-score {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 15px 0;
+        }
+
+        .results-message {
+            font-size: 0.9rem;
+            margin: 10px 0;
+        }
+
+        .results-details {
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            font-size: 0.75rem;
+        }
+
+        .performance-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin: 10px 0;
+            background: rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JavaScript 2026 Complete Guide</h1>
+            <div class="subtitle">Modern JS • ES2026 • Best Practices</div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showSection(0)">Instructions</button>
+            <button class="tab" onclick="showSection(1)">Step by Step</button>
+            <button class="tab" onclick="showSection(2)">Skills Path</button>
+            <button class="tab" onclick="showSection(3)">Advanced</button>
+            <button class="tab" onclick="showSection(4)">Playground</button>
+            <button class="tab" onclick="showSection(5)">Projects</button>
+            <button class="tab" onclick="showSection(6)">Cheat Sheet</button>
+            <button class="tab" onclick="showSection(7)">Quiz</button>
+        </div>
+
+        <div class="content">
+            <!-- Instructions Section -->
+            <div class="section active">
+                <input type="text" class="search-box" placeholder="🔍 Search instructions..." oninput="searchContent(this.value, 0)">
+                
+                <div class="category">
+                    <div class="category-title">Getting Started</div>
+                    
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">1</span>Setup Development Environment</div>
+                        <div class="step-content">
+                            Install a modern code editor like VS Code, enable JavaScript support, and install Node.js (v20+) for package management and runtime execution.
+                        </div>
+                    </div>
+
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">2</span>Create Your First Project</div>
+                        <div class="step-content">
+                            Initialize with <code>npm init -y</code>, create an <code>index.html</code> and <code>script.js</code> file, and link them together using script tags.
+                        </div>
+                    </div>
+
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">3</span>Learn Console Basics</div>
+                        <div class="step-content">
+                            Open browser DevTools (F12), use <code>console.log()</code>, <code>console.error()</code>, and <code>console.table()</code> for debugging and testing.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-title">Core Concepts</div>
+                    
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">4</span>Variables & Data Types</div>
+                        <div class="step-content">
+                            Use <code>const</code> for constants, <code>let</code> for variables. Avoid <code>var</code>. Learn string, number, boolean, array, object, null, and undefined types.
+                        </div>
+                    </div>
+
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">5</span>Functions & Arrow Functions</div>
+                        <div class="step-content">
+                            Master function declarations, expressions, and ES6 arrow functions: <code>const add = (a, b) => a + b</code>
+                        </div>
+                    </div>
+
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">6</span>Array Methods</div>
+                        <div class="step-content">
+                            Learn <code>map()</code>, <code>filter()</code>, <code>reduce()</code>, <code>forEach()</code>, <code>find()</code>, <code>some()</code>, and <code>every()</code> for data manipulation.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip searchable">
+                    <span class="tip-icon">💡</span>
+                    <strong>Pro Tip:</strong> Always use strict mode by adding <code>'use strict';</code> at the top of your scripts to catch common errors.
+                </div>
+            </div>
+
+            <!-- Step by Step Section -->
+            <div class="section">
+                <input type="text" class="search-box" placeholder="🔍 Search steps..." oninput="searchContent(this.value, 1)">
+                
+                <div class="category">
+                    <div class="category-title">Week 1: JavaScript Fundamentals</div>
+                    
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">1</span>Variables & Operators (Day 1-2)</div>
+                        <div class="step-content">
+                            Practice declaring variables with const/let. Learn arithmetic (+, -, *, /), comparison (===, !==, >, <), and logical operators (&&, ||, !).
+                        </div>
+                        <pre><code>const age = 25;
+let score = 100;
+const isAdult = age >= 18;
+const canVote = isAdult && age >= 18;</code></pre>
+                    </div>
+
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">2</span>Control Flow (Day 3-4)</div>
+                        <div class="step-content">
+                            Master if/else statements, switch cases, and ternary operators for decision making in your code.
+                        </div>
+                        <pre><code>const grade = 85;
+const result = grade >= 90 ? 'A' : 
+               grade >= 80 ? 'B' : 'C';
+console.log(result);</code></pre>
+                    </div>
+
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">3</span>Loops & Iteration (Day 5-7)</div>
+                        <div class="step-content">
+                            Learn for loops, while loops, for...of, and for...in. Practice iterating through arrays and objects.
+                        </div>
+                        <pre><code>const fruits = ['apple', 'banana', 'orange'];
+for (const fruit of fruits) {
+    console.log(fruit);
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-title">Week 2: Functions & Scope</div>
+                    
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">4</span>Function Basics (Day 8-10)</div>
+                        <div class="step-content">
+                            Create functions with parameters, return values, default parameters, and rest parameters (...args).
+                        </div>
+                        <pre><code>function greet(name = 'Guest') {
+    return `Hello, ${name}!`;
+}
+const arrowGreet = (name) => `Hi, ${name}!`;</code></pre>
+                    </div>
+
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">5</span>Scope & Closures (Day 11-12)</div>
+                        <div class="step-content">
+                            Understand global scope, function scope, block scope, and how closures capture variables from outer scopes.
+                        </div>
+                        <pre><code>function counter() {
+    let count = 0;
+    return () => ++count;
+}
+const increment = counter();
+console.log(increment());</code></pre>
+                    </div>
+
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">6</span>Higher-Order Functions (Day 13-14)</div>
+                        <div class="step-content">
+                            Functions that take other functions as arguments or return functions. Essential for functional programming.
+                        </div>
+                        <pre><code>const numbers = [1, 2, 3, 4];
+const doubled = numbers.map(n => n * 2);
+const evens = numbers.filter(n => n % 2 === 0);</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-box searchable">
+                    <strong>Practice Project:</strong> Build a todo list app using arrays, functions, and DOM manipulation to apply Week 1-2 concepts.
+                </div>
+            </div>
+
+            <!-- Skills Path Section -->
+            <div class="section">
+                <input type="text" class="search-box" placeholder="🔍 Search skills..." oninput="searchContent(this.value, 2)">
+                
+                <div class="skill-card searchable">
+                    <div class="skill-level">Beginner • Essential</div>
+                    <div class="skill-name">Core JavaScript Syntax</div>
+                    <div class="skill-desc">
+                        Variables (const, let), data types, operators, conditionals, loops, and basic functions. Foundation for all JS development.
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div>
+                </div>
+
+                <div class="skill-card searchable">
+                    <div class="skill-level">Beginner • Essential</div>
+                    <div class="skill-name">DOM Manipulation</div>
+                    <div class="skill-desc">
+                        querySelector, addEventListener, createElement, classList. Build interactive web pages by manipulating HTML elements.
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 90%"></div></div>
+                </div>
+
+                <div class="skill-card searchable">
+                    <div class="skill-level">Intermediate • Important</div>
+                    <div class="skill-name">Asynchronous JavaScript</div>
+                    <div class="skill-desc">
+                        Promises, async/await, fetch API, handling API requests. Critical for modern web development and data fetching.
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
+                </div>
+
+                <div class="skill-card searchable">
+                    <div class="skill-level">Intermediate • Important</div>
+                    <div class="skill-name">ES6+ Features</div>
+                    <div class="skill-desc">
+                        Destructuring, spread operator, template literals, modules, classes. Modern JavaScript syntax for cleaner code.
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div>
+                </div>
+
+                <div class="skill-card searchable">
+                    <div class="skill-level">Intermediate • Valuable</div>
+                    <div class="skill-name">Array & Object Methods</div>
+                    <div class="skill-desc">
+                        map, filter, reduce, find, Object.keys, Object.entries. Essential for data transformation and functional programming.
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 75%"></div></div>
+                </div>
+
+                <div class="skill-card searchable">
+                    <div class="skill-level">Advanced • Professional</div>
+                    <div class="skill-name">Design Patterns</div>
+                    <div class="skill-desc">
+                        Module pattern, Observer, Singleton, Factory. Write scalable, maintainable code following industry best practices.
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 60%"></div></div>
+                </div>
+
+                <div class="skill-card searchable">
+                    <div class="skill-level">Advanced • Professional</div>
+                    <div class="skill-name">Testing & Debugging</div>
+                    <div class="skill-desc">
+                        Jest, unit testing, integration testing, Chrome DevTools. Ensure code quality and catch bugs early.
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 55%"></div></div>
+                </div>
+
+                <div class="skill-card searchable">
+                    <div class="skill-level">Advanced • Specialized</div>
+                    <div class="skill-name">Performance Optimization</div>
+                    <div class="skill-desc">
+                        Debouncing, throttling, lazy loading, code splitting, Web Workers. Build lightning-fast applications.
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 50%"></div></div>
+                </div>
+
+                <div class="tip searchable">
+                    <span class="tip-icon">🎯</span>
+                    <strong>Learning Path:</strong> Master skills from top to bottom. Each level builds on previous knowledge.
+                </div>
+            </div>
+
+            <!-- Advanced Section -->
+            <div class="section">
+                <input type="text" class="search-box" placeholder="🔍 Search advanced topics..." oninput="searchContent(this.value, 3)">
+                
+                <div class="category">
+                    <div class="category-title">Modern JavaScript Patterns</div>
+                    
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">1</span>Async/Await & Error Handling</div>
+                        <div class="step-content">
+                            Modern asynchronous code with proper error handling using try/catch blocks.
+                        </div>
+                        <pre><code>async function fetchUser(id) {
+    try {
+        const res = await fetch(`/api/users/${id}`);
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Fetch failed:', error);
+        throw error;
+    }
+}</code></pre>
+                    </div>
+
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">2</span>Destructuring & Spread</div>
+                        <div class="step-content">
+                            Extract values from arrays/objects and spread elements efficiently.
+                        </div>
+                        <pre><code>const user = {
+    name: 'Alice',
+    age: 30,
+    city: 'NYC'
+};
+const { name, ...rest } = user;
+const newUser = { ...user, country: 'USA' };
+
+const [first, ...others] = [1, 2, 3, 4];</code></pre>
+                    </div>
+
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">3</span>Modules & Imports</div>
+                        <div class="step-content">
+                            Organize code with ES6 modules for better maintainability and reusability.
+                        </div>
+                        <pre><code>// utils.js
+export const add = (a, b) => a + b;
+export default class Calculator { }
+
+// app.js
+import Calculator, { add } from './utils.js';</code></pre>
+                    </div>
+
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">4</span>Optional Chaining & Nullish Coalescing</div>
+                        <div class="step-content">
+                            Safely access nested properties and provide default values.
+                        </div>
+                        <pre><code>const user = { profile: { name: 'Bob' } };
+const city = user?.profile?.address?.city ?? 'Unknown';
+
+// Old way throws error if profile is undefined
+const oldWay = user.profile.address.city || 'Unknown';</code></pre>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-title">Performance & Optimization</div>
+                    
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">5</span>Debounce & Throttle</div>
+                        <div class="step-content">
+                            Control function execution rate for performance optimization.
+                        </div>
+                        <pre><code>function debounce(func, delay) {
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            func(...args);
+        }, delay);
+    };
+}
+
+const search = debounce((query) => {
+    console.log('Searching:', query);
+}, 300);</code></pre>
+                    </div>
+
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">6</span>Memoization</div>
+                        <div class="step-content">
+                            Cache expensive function results for better performance.
+                        </div>
+                        <pre><code>function memoize(fn) {
+    const cache = new Map();
+    return (...args) => {
+        const key = JSON.stringify(args);
+        if (cache.has(key)) {
+            return cache.get(key);
+        }
+        const result = fn(...args);
+        cache.set(key, result);
+        return result;
+    };
+}</code></pre>
+                    </div>
+
+                    <div class="step searchable">
+                        <div class="step-title"><span class="step-number">7</span>Web Workers</div>
+                        <div class="step-content">
+                            Run JavaScript in background threads for CPU-intensive tasks.
+                        </div>
+                        <pre><code>// worker.js
+self.addEventListener('message', (e) => {
+    const result = heavyComputation(e.data);
+    self.postMessage(result);
+});
+
+// main.js
+const worker = new Worker('worker.js');
+worker.postMessage(data);</code></pre>
+                    </div>
+                </div>
+
+                <div class="example-box searchable">
+                    <strong>Advanced Project:</strong> Build a real-time chat app using WebSockets, async/await, and modern ES6+ features.
+                </div>
+
+                <div class="tip searchable">
+                    <span class="tip-icon">⚡</span>
+                    <strong>Performance Tip:</strong> Use Chrome DevTools Performance tab to profile your code and identify bottlenecks.
+                </div>
+            </div>
+
+            <!-- Interactive Code Playground Section -->
+            <div class="section">
+                <div class="category-title">📝 Code Snippets Library</div>
+                <div class="snippet-library">
+                    <div class="snippet-card" onclick="loadSnippet('hello')">
+                        <div class="snippet-name">Hello World</div>
+                        <div class="snippet-desc">Basic output</div>
+                    </div>
+                    <div class="snippet-card" onclick="loadSnippet('variables')">
+                        <div class="snippet-name">Variables</div>
+                        <div class="snippet-desc">const & let</div>
+                    </div>
+                    <div class="snippet-card" onclick="loadSnippet('array')">
+                        <div class="snippet-name">Array Methods</div>
+                        <div class="snippet-desc">map, filter</div>
+                    </div>
+                    <div class="snippet-card" onclick="loadSnippet('async')">
+                        <div class="snippet-name">Async/Await</div>
+                        <div class="snippet-desc">Promises</div>
+                    </div>
+                    <div class="snippet-card" onclick="loadSnippet('destructure')">
+                        <div class="snippet-name">Destructuring</div>
+                        <div class="snippet-desc">Objects & Arrays</div>
+                    </div>
+                    <div class="snippet-card" onclick="loadSnippet('arrow')">
+                        <div class="snippet-name">Arrow Functions</div>
+                        <div class="snippet-desc">Modern syntax</div>
+                    </div>
+                </div>
+
+                <div class="playground-container">
+                    <div class="editor-section">
+                        <div class="editor-header">
+                            <div class="editor-title">✏️ JavaScript Code Editor</div>
+                            <div class="editor-actions">
+                                <button class="editor-btn run-btn" onclick="runCode()">▶ Run</button>
+                                <button class="editor-btn clear-btn" onclick="clearOutput()">Clear</button>
+                                <button class="editor-btn reset-btn" onclick="resetEditor()">Reset</button>
+                            </div>
+                        </div>
+                        <textarea 
+                            id="codeEditor" 
+                            class="code-editor" 
+                            placeholder="Write your JavaScript code here...
+// Try typing: console.log('Hello, World!');"
+                            spellcheck="false"
+                        ></textarea>
+                    </div>
+
+                    <div class="output-section">
+                        <div class="output-header">
+                            <div class="output-title">📊 Console Output</div>
+                        </div>
+                        <div id="output" class="output-display">
+                            <div class="output-info">👋 Ready! Write code above and click Run to see output.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="playground-tips">
+                    <strong>💡 Playground Tips:</strong><br>
+                    • Use console.log() to display values<br>
+                    • Click snippet cards above to load examples<br>
+                    • Code runs in a safe sandbox environment<br>
+                    • Try the array methods and async examples!
+                </div>
+            </div>
+
+            <!-- Real Projects Section -->
+            <div class="section">
+                <div class="category-title">🚀 Real-World JavaScript Projects</div>
+                
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All Projects</button>
+                    <button class="filter-btn" data-filter="beginner">Beginner</button>
+                    <button class="filter-btn" data-filter="intermediate">Intermediate</button>
+                    <button class="filter-btn" data-filter="advanced">Advanced</button>
+                </div>
+
+                <!-- Project 1: Todo List App -->
+                <div class="project-card" data-difficulty="beginner">
+                    <div class="project-header">
+                        <div class="project-icon">📝</div>
+                        <div class="project-info">
+                            <div class="project-title">Todo List App</div>
+                            <span class="project-difficulty difficulty-beginner">Beginner</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-desc">
+                        Build a fully functional task management app with add, delete, complete, and filter features. Perfect for learning DOM manipulation and array methods.
+                    </div>
+                    
+                    <div class="project-tech">
+                        <span class="tech-badge">DOM Manipulation</span>
+                        <span class="tech-badge">Array Methods</span>
+                        <span class="tech-badge">Event Listeners</span>
+                        <span class="tech-badge">ES6+</span>
+                    </div>
+                    
+                    <div class="project-features">
+                        <strong style="font-size: 0.7rem;">Key Features:</strong>
+                        <ul>
+                            <li>Add new tasks with input validation</li>
+                            <li>Mark tasks as complete/incomplete</li>
+                            <li>Delete individual tasks</li>
+                            <li>Filter: All, Active, Completed</li>
+                            <li>Task counter and clear all button</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="project-btn" data-project="todo">
+                        👁️ View Code & Demo
+                    </button>
+                    
+                    <div id="todo-project" class="project-expanded">
+                        <div class="project-demo">
+                            <div id="todo-demo-container"></div>
+                        </div>
+                        
+                        <div class="code-section-title">📄 Complete Code:</div>
+                        <pre><code>// Todo List Application
+const todos = [];
+let filter = 'all';
+
+function addTodo(text) {
+    if (!text.trim()) return;
+    
+    const todo = {
+        id: Date.now(),
+        text: text,
+        completed: false
+    };
+    
+    todos.push(todo);
+    renderTodos();
+}
+
+function deleteTodo(id) {
+    const index = todos.findIndex(t => t.id === id);
+    if (index &gt; -1) {
+        todos.splice(index, 1);
+        renderTodos();
+    }
+}
+
+function toggleTodo(id) {
+    const todo = todos.find(t => t.id === id);
+    if (todo) {
+        todo.completed = !todo.completed;
+        renderTodos();
+    }
+}
+
+function getFilteredTodos() {
+    if (filter === 'active') {
+        return todos.filter(t => !t.completed);
+    } else if (filter === 'completed') {
+        return todos.filter(t => t.completed);
+    }
+    return todos;
+}
+
+function renderTodos() {
+    const container = document.getElementById('todo-list');
+    const filtered = getFilteredTodos();
+    
+    container.innerHTML = filtered.map(todo => \`
+        &lt;div class="todo-item"&gt;
+            &lt;input type="checkbox" 
+                \${todo.completed ? 'checked' : ''}
+                onchange="toggleTodo(\${todo.id})"&gt;
+            &lt;span class="\${todo.completed ? 'completed' : ''}"&gt;
+                \${todo.text}
+            &lt;/span&gt;
+            &lt;button onclick="deleteTodo(\${todo.id})"&gt;
+                Delete
+            &lt;/button&gt;
+        &lt;/div&gt;
+    \`).join('');
+}
+
+// Usage
+addTodo('Learn JavaScript');
+addTodo('Build a project');
+addTodo('Master ES6+');</code></pre>
+                    </div>
+                </div>
+
+                <!-- Project 2: Weather App -->
+                <div class="project-card" data-difficulty="intermediate">
+                    <div class="project-header">
+                        <div class="project-icon">🌤️</div>
+                        <div class="project-info">
+                            <div class="project-title">Weather Dashboard</div>
+                            <span class="project-difficulty difficulty-intermediate">Intermediate</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-desc">
+                        Create a weather app using async/await, fetch API, and display real-time weather data with dynamic UI updates.
+                    </div>
+                    
+                    <div class="project-tech">
+                        <span class="tech-badge">Fetch API</span>
+                        <span class="tech-badge">Async/Await</span>
+                        <span class="tech-badge">API Integration</span>
+                        <span class="tech-badge">Error Handling</span>
+                    </div>
+                    
+                    <div class="project-features">
+                        <strong style="font-size: 0.7rem;">Key Features:</strong>
+                        <ul>
+                            <li>City search with autocomplete</li>
+                            <li>Current weather display</li>
+                            <li>5-day forecast</li>
+                            <li>Temperature unit converter (C°/F°)</li>
+                            <li>Loading states and error handling</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="project-btn" data-project="weather">
+                        👁️ View Code & Demo
+                    </button>
+                    
+                    <div id="weather-project" class="project-expanded">
+                        <div class="code-section-title">📄 Complete Code:</div>
+                        <pre><code>// Weather Dashboard Application
+class WeatherApp {
+    constructor() {
+        this.apiKey = 'YOUR_API_KEY';
+        this.baseUrl = 'https://api.weather.com';
+        this.currentCity = '';
+    }
+    
+    async fetchWeather(city) {
+        try {
+            const response = await fetch(
+                \`\${this.baseUrl}/weather?q=\${city}&appid=\${this.apiKey}\`
+            );
+            
+            if (!response.ok) {
+                throw new Error('City not found');
+            }
+            
+            const data = await response.json();
+            return this.formatWeatherData(data);
+            
+        } catch (error) {
+            console.error('Weather fetch failed:', error);
+            throw error;
+        }
+    }
+    
+    formatWeatherData(data) {
+        return {
+            city: data.name,
+            temp: Math.round(data.main.temp - 273.15),
+            feels: Math.round(data.main.feels_like - 273.15),
+            humidity: data.main.humidity,
+            description: data.weather[0].description,
+            icon: data.weather[0].icon
+        };
+    }
+    
+    displayWeather(weather) {
+        const container = document.getElementById('weather-display');
+        
+        container.innerHTML = \`
+            &lt;h2&gt;\${weather.city}&lt;/h2&gt;
+            &lt;div class="temp"&gt;\${weather.temp}°C&lt;/div&gt;
+            &lt;p&gt;Feels like: \${weather.feels}°C&lt;/p&gt;
+            &lt;p&gt;\${weather.description}&lt;/p&gt;
+            &lt;p&gt;Humidity: \${weather.humidity}%&lt;/p&gt;
+        \`;
+    }
+    
+    async searchCity(city) {
+        try {
+            const weather = await this.fetchWeather(city);
+            this.displayWeather(weather);
+        } catch (error) {
+            alert('Failed to fetch weather data');
+        }
+    }
+}
+
+// Usage
+const app = new WeatherApp();
+app.searchCity('London');</code></pre>
+                    </div>
+                </div>
+
+                <!-- Project 3: Real-time Chat App -->
+                <div class="project-card" data-difficulty="advanced">
+                    <div class="project-header">
+                        <div class="project-icon">💬</div>
+                        <div class="project-info">
+                            <div class="project-title">Real-time Chat Application</div>
+                            <span class="project-difficulty difficulty-advanced">Advanced</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-desc">
+                        Build a fully functional chat app with WebSocket simulation, real-time messaging, user presence, typing indicators, and modern ES6+ features.
+                    </div>
+                    
+                    <div class="project-tech">
+                        <span class="tech-badge">WebSockets</span>
+                        <span class="tech-badge">Async/Await</span>
+                        <span class="tech-badge">ES6 Classes</span>
+                        <span class="tech-badge">Event System</span>
+                        <span class="tech-badge">State Management</span>
+                    </div>
+                    
+                    <div class="project-features">
+                        <strong style="font-size: 0.7rem;">Key Features:</strong>
+                        <ul>
+                            <li>Real-time message sending/receiving</li>
+                            <li>User online/offline status</li>
+                            <li>Typing indicators</li>
+                            <li>Message timestamps</li>
+                            <li>User avatars and profiles</li>
+                            <li>Message history with scroll</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="project-btn" data-project="chat">
+                        👁️ View Code & Demo
+                    </button>
+                    
+                    <div id="chat-project" class="project-expanded">
+                        <div class="project-demo">
+                            <div id="chat-demo-container"></div>
+                        </div>
+                        
+                        <div class="code-section-title">📄 Complete Code:</div>
+                        <pre><code>// Real-time Chat Application
+class ChatApp {
+    constructor(username) {
+        this.username = username;
+        this.messages = [];
+        this.users = new Map();
+        this.typingUsers = new Set();
+        this.eventHandlers = new Map();
+    }
+    
+    // Event system for real-time updates
+    on(event, handler) {
+        if (!this.eventHandlers.has(event)) {
+            this.eventHandlers.set(event, []);
+        }
+        this.eventHandlers.get(event).push(handler);
+    }
+    
+    emit(event, data) {
+        const handlers = this.eventHandlers.get(event) || [];
+        handlers.forEach(handler =&gt; handler(data));
+    }
+    
+    // Send message
+    async sendMessage(text) {
+        if (!text.trim()) return;
+        
+        const message = {
+            id: Date.now(),
+            user: this.username,
+            text: text.trim(),
+            timestamp: new Date(),
+            delivered: false
+        };
+        
+        // Simulate network delay
+        await new Promise(resolve =&gt; setTimeout(resolve, 100));
+        
+        message.delivered = true;
+        this.messages.push(message);
+        this.emit('message', message);
+        
+        return message;
+    }
+    
+    // Typing indicator
+    startTyping() {
+        this.typingUsers.add(this.username);
+        this.emit('typing', {
+            user: this.username,
+            isTyping: true
+        });
+    }
+    
+    stopTyping() {
+        this.typingUsers.delete(this.username);
+        this.emit('typing', {
+            user: this.username,
+            isTyping: false
+        });
+    }
+    
+    // User management
+    addUser(username, status = 'online') {
+        this.users.set(username, {
+            username,
+            status,
+            joinedAt: new Date(),
+            avatar: this.generateAvatar(username)
+        });
+        
+        this.emit('userJoined', { username, status });
+    }
+    
+    removeUser(username) {
+        this.users.delete(username);
+        this.emit('userLeft', { username });
+    }
+    
+    generateAvatar(username) {
+        const colors = ['#667eea', '#764ba2', '#f093fb', '#4facfe'];
+        const index = username.length % colors.length;
+        return colors[index];
+    }
+    
+    // Get formatted messages
+    getMessages() {
+        return this.messages.map(msg =&gt; ({
+            ...msg,
+            timeString: this.formatTime(msg.timestamp)
+        }));
+    }
+    
+    formatTime(date) {
+        return date.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+}
+
+// Chat UI Controller
+class ChatUI {
+    constructor(chatApp, containerId) {
+        this.chat = chatApp;
+        this.container = document.getElementById(containerId);
+        this.setupUI();
+        this.bindEvents();
+    }
+    
+    setupUI() {
+        this.container.innerHTML = \`
+            &lt;div class="chat-container"&gt;
+                &lt;div class="chat-header"&gt;
+                    &lt;h3&gt;Chat Room&lt;/h3&gt;
+                    &lt;span class="user-count"&gt;
+                        \${this.chat.users.size} online
+                    &lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class="messages" id="messages"&gt;&lt;/div&gt;
+                &lt;div class="typing-indicator" id="typing"&gt;&lt;/div&gt;
+                &lt;div class="chat-input"&gt;
+                    &lt;input type="text" 
+                           id="message-input" 
+                           placeholder="Type a message..."&gt;
+                    &lt;button id="send-btn"&gt;Send&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        \`;
+    }
+    
+    bindEvents() {
+        const input = document.getElementById('message-input');
+        const sendBtn = document.getElementById('send-btn');
+        
+        // Send message on click or Enter
+        sendBtn.onclick = () =&gt; this.sendMessage();
+        input.onkeypress = (e) =&gt; {
+            if (e.key === 'Enter') this.sendMessage();
+        };
+        
+        // Typing indicator
+        let typingTimeout;
+        input.oninput = () =&gt; {
+            this.chat.startTyping();
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() =&gt; {
+                this.chat.stopTyping();
+            }, 1000);
+        };
+        
+        // Listen to chat events
+        this.chat.on('message', (msg) =&gt; this.renderMessage(msg));
+        this.chat.on('typing', (data) =&gt; this.updateTyping(data));
+    }
+    
+    async sendMessage() {
+        const input = document.getElementById('message-input');
+        const text = input.value;
+        
+        if (text.trim()) {
+            await this.chat.sendMessage(text);
+            input.value = '';
+            this.chat.stopTyping();
+        }
+    }
+    
+    renderMessage(message) {
+        const messagesDiv = document.getElementById('messages');
+        const isOwn = message.user === this.chat.username;
+        
+        const msgEl = document.createElement('div');
+        msgEl.className = \`message \${isOwn ? 'own' : 'other'}\`;
+        msgEl.innerHTML = \`
+            &lt;div class="message-user"&gt;\${message.user}&lt;/div&gt;
+            &lt;div class="message-text"&gt;\${message.text}&lt;/div&gt;
+            &lt;div class="message-time"&gt;\${message.timeString}&lt;/div&gt;
+        \`;
+        
+        messagesDiv.appendChild(msgEl);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+    
+    updateTyping(data) {
+        const typingDiv = document.getElementById('typing');
+        if (data.isTyping && data.user !== this.chat.username) {
+            typingDiv.textContent = \`\${data.user} is typing...\`;
+        } else {
+            typingDiv.textContent = '';
+        }
+    }
+}
+
+// Usage Example
+const chat = new ChatApp('Alice');
+chat.addUser('Alice', 'online');
+chat.addUser('Bob', 'online');
+
+const ui = new ChatUI(chat, 'chat-container');
+
+// Simulate incoming message
+setTimeout(() =&gt; {
+    const bobChat = new ChatApp('Bob');
+    bobChat.sendMessage('Hey Alice!');
+}, 2000);</code></pre>
+                    </div>
+                </div>
+
+                <!-- Project 4: Memory Game -->
+                <div class="project-card" data-difficulty="beginner">
+                    <div class="project-header">
+                        <div class="project-icon">🎮</div>
+                        <div class="project-info">
+                            <div class="project-title">Memory Card Game</div>
+                            <span class="project-difficulty difficulty-beginner">Beginner</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-desc">
+                        Classic memory matching game with card flip animations, score tracking, and timer. Great for practicing array shuffling and DOM updates.
+                    </div>
+                    
+                    <div class="project-tech">
+                        <span class="tech-badge">Game Logic</span>
+                        <span class="tech-badge">CSS Animations</span>
+                        <span class="tech-badge">Array Methods</span>
+                        <span class="tech-badge">Timer</span>
+                    </div>
+                    
+                    <div class="project-features">
+                        <strong style="font-size: 0.7rem;">Key Features:</strong>
+                        <ul>
+                            <li>Card shuffle algorithm</li>
+                            <li>Flip animation with CSS</li>
+                            <li>Match detection logic</li>
+                            <li>Score and move counter</li>
+                            <li>Timer and restart function</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="project-btn" data-project="memory">
+                        👁️ View Code & Demo
+                    </button>
+                    
+                    <div id="memory-project" class="project-expanded">
+                        <div class="code-section-title">📄 Complete Code:</div>
+                        <pre><code>// Memory Card Game
+class MemoryGame {
+    constructor(symbols) {
+        this.symbols = [...symbols, ...symbols];
+        this.cards = [];
+        this.flippedCards = [];
+        this.matchedPairs = 0;
+        this.moves = 0;
+        this.score = 0;
+        this.init();
+    }
+    
+    init() {
+        this.shuffleCards();
+        this.createBoard();
+    }
+    
+    shuffleCards() {
+        for (let i = this.symbols.length - 1; i &gt; 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.symbols[i], this.symbols[j]] = 
+                [this.symbols[j], this.symbols[i]];
+        }
+        
+        this.cards = this.symbols.map((symbol, index) =&gt; ({
+            id: index,
+            symbol,
+            flipped: false,
+            matched: false
+        }));
+    }
+    
+    flipCard(cardId) {
+        const card = this.cards.find(c =&gt; c.id === cardId);
+        
+        if (!card || card.flipped || card.matched) return;
+        if (this.flippedCards.length &gt;= 2) return;
+        
+        card.flipped = true;
+        this.flippedCards.push(card);
+        
+        if (this.flippedCards.length === 2) {
+            this.moves++;
+            this.checkMatch();
+        }
+    }
+    
+    checkMatch() {
+        const [card1, card2] = this.flippedCards;
+        
+        if (card1.symbol === card2.symbol) {
+            card1.matched = true;
+            card2.matched = true;
+            this.matchedPairs++;
+            this.score += 100;
+            this.flippedCards = [];
+            
+            if (this.matchedPairs === this.symbols.length / 2) {
+                setTimeout(() =&gt; alert('You Won!'), 300);
+            }
+        } else {
+            setTimeout(() =&gt; {
+                card1.flipped = false;
+                card2.flipped = false;
+                this.flippedCards = [];
+                this.renderBoard();
+            }, 1000);
+        }
+    }
+    
+    createBoard() {
+        const board = document.getElementById('game-board');
+        board.innerHTML = this.cards.map(card =&gt; \`
+            &lt;div class="card" 
+                 data-id="\${card.id}"
+                 onclick="game.flipCard(\${card.id})"&gt;
+                &lt;div class="card-inner"&gt;
+                    &lt;div class="card-front"&gt;?&lt;/div&gt;
+                    &lt;div class="card-back"&gt;\${card.symbol}&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        \`).join('');
+    }
+    
+    renderBoard() {
+        this.cards.forEach(card =&gt; {
+            const el = document.querySelector(
+                \`[data-id="\${card.id}"]\`
+            );
+            el.classList.toggle('flipped', card.flipped);
+            el.classList.toggle('matched', card.matched);
+        });
+    }
+}
+
+// Usage
+const symbols = ['🍎', '🍌', '🍇', '🍊', '🍓', '🍉'];
+const game = new MemoryGame(symbols);</code></pre>
+                    </div>
+                </div>
+
+                <div class="tip">
+                    <span class="tip-icon">💡</span>
+                    <strong>Project Tips:</strong> Start with beginner projects to build confidence, then progress to intermediate and advanced. Each project includes complete, working code you can study and modify!
+                </div>
+            </div>
+
+            <!-- Cheat Sheet Section -->
+            <div class="section">
+                <div class="category-title">📚 JavaScript Quick Reference</div>
+                
+                <input type="text" class="search-box" placeholder="🔍 Search cheat sheet..." oninput="searchContent(this.value, 6)">
+
+                <!-- Variables & Data Types -->
+                <div class="cheat-section searchable">
+                    <div class="cheat-header">
+                        <span>📦 Variables & Data Types</span>
+                        <span class="cheat-icon">💾</span>
+                    </div>
+                    <div class="cheat-content">
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Constant (immutable)</div>
+                                <div class="cheat-desc">Cannot be reassigned</div>
+                            </div>
+                            <code class="cheat-code">const x = 10;</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Variable (mutable)</div>
+                                <div class="cheat-desc">Can be reassigned</div>
+                            </div>
+                            <code class="cheat-code">let y = 20;</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">String</div>
+                                <div class="cheat-desc">Text data</div>
+                            </div>
+                            <code class="cheat-code">'text' "text" \`text\`</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Number</div>
+                                <div class="cheat-desc">Integer or float</div>
+                            </div>
+                            <code class="cheat-code">42 or 3.14</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Boolean</div>
+                                <div class="cheat-desc">True or false</div>
+                            </div>
+                            <code class="cheat-code">true / false</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Array</div>
+                                <div class="cheat-desc">Ordered collection</div>
+                            </div>
+                            <code class="cheat-code">[1, 2, 3]</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Object</div>
+                                <div class="cheat-desc">Key-value pairs</div>
+                            </div>
+                            <code class="cheat-code">{key: 'value'}</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Array Methods -->
+                <div class="cheat-section searchable">
+                    <div class="cheat-header">
+                        <span>🔄 Array Methods</span>
+                        <span class="cheat-icon">📊</span>
+                    </div>
+                    <div class="cheat-content">
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">map()</div>
+                                <div class="cheat-desc">Transform each element</div>
+                            </div>
+                            <code class="cheat-code">arr.map(x =&gt; x * 2)</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">filter()</div>
+                                <div class="cheat-desc">Select elements</div>
+                            </div>
+                            <code class="cheat-code">arr.filter(x =&gt; x &gt; 5)</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">reduce()</div>
+                                <div class="cheat-desc">Accumulate values</div>
+                            </div>
+                            <code class="cheat-code">arr.reduce((a,b) =&gt; a+b)</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">find()</div>
+                                <div class="cheat-desc">Find first match</div>
+                            </div>
+                            <code class="cheat-code">arr.find(x =&gt; x &gt; 5)</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">forEach()</div>
+                                <div class="cheat-desc">Loop through array</div>
+                            </div>
+                            <code class="cheat-code">arr.forEach(x =&gt; ...)</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">push() / pop()</div>
+                                <div class="cheat-desc">Add/remove from end</div>
+                            </div>
+                            <code class="cheat-code">arr.push(4) arr.pop()</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">shift() / unshift()</div>
+                                <div class="cheat-desc">Remove/add at start</div>
+                            </div>
+                            <code class="cheat-code">arr.shift() arr.unshift(1)</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">slice()</div>
+                                <div class="cheat-desc">Extract portion</div>
+                            </div>
+                            <code class="cheat-code">arr.slice(1, 3)</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">splice()</div>
+                                <div class="cheat-desc">Add/remove elements</div>
+                            </div>
+                            <code class="cheat-code">arr.splice(1, 2, 'new')</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- String Methods -->
+                <div class="cheat-section searchable">
+                    <div class="cheat-header">
+                        <span>✂️ String Methods</span>
+                        <span class="cheat-icon">📝</span>
+                    </div>
+                    <div class="cheat-content">
+                        <div class="cheat-grid">
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Length</div>
+                                <div class="cheat-card-code">str.length</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Uppercase</div>
+                                <div class="cheat-card-code">str.toUpperCase()</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Lowercase</div>
+                                <div class="cheat-card-code">str.toLowerCase()</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Trim</div>
+                                <div class="cheat-card-code">str.trim()</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Split</div>
+                                <div class="cheat-card-code">str.split(',')</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Replace</div>
+                                <div class="cheat-card-code">str.replace('a','b')</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Includes</div>
+                                <div class="cheat-card-code">str.includes('x')</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Slice</div>
+                                <div class="cheat-card-code">str.slice(0,5)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Functions -->
+                <div class="cheat-section searchable">
+                    <div class="cheat-header">
+                        <span>⚡ Functions</span>
+                        <span class="cheat-icon">🔧</span>
+                    </div>
+                    <div class="cheat-content">
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Function Declaration</div>
+                                <div class="cheat-desc">Traditional function</div>
+                            </div>
+                            <code class="cheat-code">function name() {}</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Arrow Function</div>
+                                <div class="cheat-desc">Modern ES6 syntax</div>
+                            </div>
+                            <code class="cheat-code">const fn = () =&gt; {}</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Default Parameters</div>
+                                <div class="cheat-desc">Fallback values</div>
+                            </div>
+                            <code class="cheat-code">fn(a = 5) {}</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Rest Parameters</div>
+                                <div class="cheat-desc">Collect arguments</div>
+                            </div>
+                            <code class="cheat-code">fn(...args) {}</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Return Value</div>
+                                <div class="cheat-desc">Output result</div>
+                            </div>
+                            <code class="cheat-code">return value;</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Object Methods -->
+                <div class="cheat-section searchable">
+                    <div class="cheat-header">
+                        <span>🎯 Object Methods</span>
+                        <span class="cheat-icon">🗂️</span>
+                    </div>
+                    <div class="cheat-content">
+                        <div class="cheat-grid">
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Keys</div>
+                                <div class="cheat-card-code">Object.keys(obj)</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Values</div>
+                                <div class="cheat-card-code">Object.values(obj)</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Entries</div>
+                                <div class="cheat-card-code">Object.entries(obj)</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Assign</div>
+                                <div class="cheat-card-code">Object.assign({},obj)</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Freeze</div>
+                                <div class="cheat-card-code">Object.freeze(obj)</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Seal</div>
+                                <div class="cheat-card-code">Object.seal(obj)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOM Manipulation -->
+                <div class="cheat-section searchable">
+                    <div class="cheat-header">
+                        <span>🌐 DOM Manipulation</span>
+                        <span class="cheat-icon">🎨</span>
+                    </div>
+                    <div class="cheat-content">
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Select Element</div>
+                                <div class="cheat-desc">Get single element</div>
+                            </div>
+                            <code class="cheat-code">document.querySelector('.class')</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Select All</div>
+                                <div class="cheat-desc">Get all matching</div>
+                            </div>
+                            <code class="cheat-code">document.querySelectorAll('.class')</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Create Element</div>
+                                <div class="cheat-desc">Make new element</div>
+                            </div>
+                            <code class="cheat-code">document.createElement('div')</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Add Event</div>
+                                <div class="cheat-desc">Listen to events</div>
+                            </div>
+                            <code class="cheat-code">el.addEventListener('click', fn)</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Append Child</div>
+                                <div class="cheat-desc">Add to parent</div>
+                            </div>
+                            <code class="cheat-code">parent.appendChild(child)</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Remove Element</div>
+                                <div class="cheat-desc">Delete from DOM</div>
+                            </div>
+                            <code class="cheat-code">element.remove()</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Change Text</div>
+                                <div class="cheat-desc">Update content</div>
+                            </div>
+                            <code class="cheat-code">el.textContent = 'text'</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Change HTML</div>
+                                <div class="cheat-desc">Update HTML</div>
+                            </div>
+                            <code class="cheat-code">el.innerHTML = '&lt;p&gt;text&lt;/p&gt;'</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Add Class</div>
+                                <div class="cheat-desc">Add CSS class</div>
+                            </div>
+                            <code class="cheat-code">el.classList.add('class')</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Remove Class</div>
+                                <div class="cheat-desc">Remove CSS class</div>
+                            </div>
+                            <code class="cheat-code">el.classList.remove('class')</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Toggle Class</div>
+                                <div class="cheat-desc">Switch class on/off</div>
+                            </div>
+                            <code class="cheat-code">el.classList.toggle('class')</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Async/Await -->
+                <div class="cheat-section searchable">
+                    <div class="cheat-header">
+                        <span>⏱️ Async/Await</span>
+                        <span class="cheat-icon">⚙️</span>
+                    </div>
+                    <div class="cheat-content">
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Promise</div>
+                                <div class="cheat-desc">Asynchronous operation</div>
+                            </div>
+                            <code class="cheat-code">new Promise((resolve, reject) =&gt; {})</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Async Function</div>
+                                <div class="cheat-desc">Declare async function</div>
+                            </div>
+                            <code class="cheat-code">async function name() {}</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Await</div>
+                                <div class="cheat-desc">Wait for promise</div>
+                            </div>
+                            <code class="cheat-code">await promise</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Try/Catch</div>
+                                <div class="cheat-desc">Error handling</div>
+                            </div>
+                            <code class="cheat-code">try {} catch(e) {}</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Fetch API</div>
+                                <div class="cheat-desc">HTTP requests</div>
+                            </div>
+                            <code class="cheat-code">fetch(url).then(r =&gt; r.json())</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ES6+ Features -->
+                <div class="cheat-section searchable">
+                    <div class="cheat-header">
+                        <span>🚀 ES6+ Features</span>
+                        <span class="cheat-icon">✨</span>
+                    </div>
+                    <div class="cheat-content">
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Destructuring Object</div>
+                                <div class="cheat-desc">Extract object values</div>
+                            </div>
+                            <code class="cheat-code">const {a, b} = obj</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Destructuring Array</div>
+                                <div class="cheat-desc">Extract array values</div>
+                            </div>
+                            <code class="cheat-code">const [a, b] = arr</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Spread Operator</div>
+                                <div class="cheat-desc">Expand array/object</div>
+                            </div>
+                            <code class="cheat-code">[...arr] {...obj}</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Template Literals</div>
+                                <div class="cheat-desc">String interpolation</div>
+                            </div>
+                            <code class="cheat-code">\`Hello \${name}\`</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Optional Chaining</div>
+                                <div class="cheat-desc">Safe property access</div>
+                            </div>
+                            <code class="cheat-code">obj?.prop?.nested</code>
+                        </div>
+                        <div class="cheat-item">
+                            <div>
+                                <div class="cheat-label">Nullish Coalescing</div>
+                                <div class="cheat-desc">Default for null/undefined</div>
+                            </div>
+                            <code class="cheat-code">value ?? 'default'</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Console Methods -->
+                <div class="cheat-section searchable">
+                    <div class="cheat-header">
+                        <span>🖥️ Console Methods</span>
+                        <span class="cheat-icon">📟</span>
+                    </div>
+                    <div class="cheat-content">
+                        <div class="cheat-grid">
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Log</div>
+                                <div class="cheat-card-code">console.log()</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Error</div>
+                                <div class="cheat-card-code">console.error()</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Warn</div>
+                                <div class="cheat-card-code">console.warn()</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Table</div>
+                                <div class="cheat-card-code">console.table()</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Clear</div>
+                                <div class="cheat-card-code">console.clear()</div>
+                            </div>
+                            <div class="cheat-card">
+                                <div class="cheat-card-title">Time</div>
+                                <div class="cheat-card-code">console.time()</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-ref">
+                    <strong>💡 Quick Tip:</strong> Bookmark this page for instant access to JavaScript syntax! Use the search box above to quickly find any method or feature.
+                </div>
+            </div>
+
+            <!-- Quiz/Assessment Section -->
+            <div class="section">
+                <div class="quiz-header">
+                    <div class="quiz-title">🎯 JavaScript Quiz Challenge</div>
+                    <div class="quiz-subtitle">Test your knowledge and track your progress</div>
+                </div>
+
+                <div class="quiz-level-selector">
+                    <button class="level-btn active" data-level="beginner">🌱 Beginner</button>
+                    <button class="level-btn" data-level="intermediate">⚡ Intermediate</button>
+                    <button class="level-btn" data-level="advanced">🚀 Advanced</button>
+                </div>
+
+                <div class="quiz-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="quiz-score">0</div>
+                        <div class="stat-label">Score</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="quiz-current">1</div>
+                        <div class="stat-label">Question</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="quiz-total">10</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                </div>
+
+                <div id="quiz-content"></div>
+
+                <div class="tip">
+                    <span class="tip-icon">📝</span>
+                    <strong>Quiz Tip:</strong> Read each question carefully. Some questions include code snippets - analyze them before selecting your answer!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        function showSection(index) {
+            const sections = document.querySelectorAll('.section');
+            const tabs = document.querySelectorAll('.tab');
+            
+            sections.forEach((section, i) => {
+                section.classList.toggle('active', i === index);
+            });
+            
+            tabs.forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+
+            // Scroll to top of content
+            document.querySelector('.content').scrollTop = 0;
+        }
+
+        // Search functionality
+        function searchContent(query, sectionIndex) {
+            const sections = document.querySelectorAll('.section');
+            const section = sections[sectionIndex];
+            const searchables = section.querySelectorAll('.searchable');
+            
+            const lowerQuery = query.toLowerCase();
+            
+            searchables.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                const matches = text.includes(lowerQuery);
+                item.style.display = matches ? 'block' : 'none';
+            });
+        }
+
+        // Animate progress bars on load
+        window.addEventListener('load', () => {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.width = bar.style.width;
+                }, index * 100);
+            });
+        });
+
+        // Add touch feedback for mobile
+        document.querySelectorAll('.step, .skill-card').forEach(element => {
+            element.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.98)';
+            });
+            
+            element.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Prevent scroll bounce on iOS
+        const content = document.querySelector('.content');
+        let startY = 0;
+        
+        content.addEventListener('touchstart', (e) => {
+            startY = e.touches[0].pageY;
+        }, { passive: true });
+        
+        content.addEventListener('touchmove', (e) => {
+            const y = e.touches[0].pageY;
+            const scrollTop = content.scrollTop;
+            const scrollHeight = content.scrollHeight;
+            const height = content.clientHeight;
+            
+            const isAtTop = scrollTop === 0;
+            const isAtBottom = scrollTop + height >= scrollHeight;
+            const isScrollingUp = y > startY;
+            const isScrollingDown = y < startY;
+            
+            if ((isAtTop && isScrollingUp) || (isAtBottom && isScrollingDown)) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Code Playground Functionality
+        const codeSnippets = {
+            hello: `// Hello World Example
+console.log('Hello, World!');
+console.log('Welcome to JavaScript 2026!');`,
+            
+            variables: `// Variables and Data Types
+const name = 'Alice';
+let age = 25;
+const isStudent = true;
+
+console.log('Name:', name);
+console.log('Age:', age);
+console.log('Is Student:', isStudent);
+
+// Template literals
+console.log(\`\${name} is \${age} years old\`);`,
+            
+            array: `// Array Methods
+const numbers = [1, 2, 3, 4, 5];
+
+// Map - transform each element
+const doubled = numbers.map(n => n * 2);
+console.log('Doubled:', doubled);
+
+// Filter - select elements
+const evens = numbers.filter(n => n % 2 === 0);
+console.log('Even numbers:', evens);
+
+// Reduce - accumulate values
+const sum = numbers.reduce((acc, n) => acc + n, 0);
+console.log('Sum:', sum);`,
+            
+            async: `// Async/Await Example
+async function fetchData() {
+    console.log('Fetching data...');
+    
+    // Simulate API call with Promise
+    const data = await new Promise(resolve => {
+        setTimeout(() => {
+            resolve({ user: 'John', status: 'active' });
+        }, 1000);
+    });
+    
+    console.log('Data received:', data);
+    return data;
+}
+
+// Call async function
+fetchData().then(() => {
+    console.log('Fetch complete!');
+});`,
+            
+            destructure: `// Destructuring Examples
+// Object destructuring
+const user = {
+    name: 'Sarah',
+    age: 28,
+    city: 'NYC',
+    country: 'USA'
+};
+
+const { name, age, ...location } = user;
+console.log('Name:', name);
+console.log('Location:', location);
+
+// Array destructuring
+const colors = ['red', 'green', 'blue'];
+const [first, second] = colors;
+console.log('First color:', first);
+console.log('Second color:', second);`,
+            
+            arrow: `// Arrow Functions
+// Traditional function
+function add(a, b) {
+    return a + b;
+}
+
+// Arrow function
+const addArrow = (a, b) => a + b;
+
+// Arrow function with array methods
+const nums = [1, 2, 3, 4, 5];
+const squared = nums.map(n => n * n);
+
+console.log('Add:', add(5, 3));
+console.log('Add Arrow:', addArrow(5, 3));
+console.log('Squared:', squared);`
+        };
+
+        function loadSnippet(snippetName) {
+            const editor = document.getElementById('codeEditor');
+            editor.value = codeSnippets[snippetName] || '';
+            clearOutput();
+            
+            // Visual feedback
+            const output = document.getElementById('output');
+            output.innerHTML = '<div class="output-info">✅ Snippet loaded! Click Run to execute.</div>';
+        }
+
+        function runCode() {
+            const code = document.getElementById('codeEditor').value;
+            const output = document.getElementById('output');
+            
+            // Clear previous output
+            output.innerHTML = '';
+            
+            // Capture console.log
+            const logs = [];
+            const originalLog = console.log;
+            const originalError = console.error;
+            const originalWarn = console.warn;
+            
+            console.log = function(...args) {
+                logs.push({ type: 'log', content: args.map(formatValue).join(' ') });
+                originalLog.apply(console, args);
+            };
+            
+            console.error = function(...args) {
+                logs.push({ type: 'error', content: args.map(formatValue).join(' ') });
+                originalError.apply(console, args);
+            };
+            
+            console.warn = function(...args) {
+                logs.push({ type: 'warn', content: args.map(formatValue).join(' ') });
+                originalWarn.apply(console, args);
+            };
+            
+            try {
+                // Execute code in async context to support await
+                (async function() {
+                    eval(code);
+                    
+                    // Wait a bit for async operations
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    
+                    // Restore console
+                    console.log = originalLog;
+                    console.error = originalError;
+                    console.warn = originalWarn;
+                    
+                    // Display output
+                    if (logs.length === 0) {
+                        output.innerHTML = '<div class="output-info">✅ Code executed successfully (no output)</div>';
+                    } else {
+                        logs.forEach(log => {
+                            const div = document.createElement('div');
+                            div.className = `output-line output-${log.type}`;
+                            div.textContent = log.content;
+                            output.appendChild(div);
+                        });
+                    }
+                })();
+                
+            } catch (error) {
+                console.log = originalLog;
+                console.error = originalError;
+                console.warn = originalWarn;
+                
+                output.innerHTML = `<div class="output-error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        function formatValue(value) {
+            if (typeof value === 'object' && value !== null) {
+                try {
+                    return JSON.stringify(value, null, 2);
+                } catch (e) {
+                    return String(value);
+                }
+            }
+            return String(value);
+        }
+
+        function clearOutput() {
+            const output = document.getElementById('output');
+            output.innerHTML = '<div class="output-info">📋 Output cleared</div>';
+        }
+
+        function resetEditor() {
+            const editor = document.getElementById('codeEditor');
+            editor.value = '';
+            clearOutput();
+            const output = document.getElementById('output');
+            output.innerHTML = '<div class="output-info">👋 Ready! Write code above and click Run to see output.</div>';
+        }
+
+        // Auto-resize textarea on input
+        document.addEventListener('DOMContentLoaded', () => {
+            const editor = document.getElementById('codeEditor');
+            if (editor) {
+                editor.addEventListener('keydown', (e) => {
+                    // Ctrl+Enter or Cmd+Enter to run code
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                        e.preventDefault();
+                        runCode();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
